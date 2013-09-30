@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="1a-lea" default="copy-scripts" basedir=".">
+
+    <!-- properties to be changed by user START -->
+
+    <!-- boolean to set if metatdatalite is used -->
+    <property name="use.metadatalite" value="false" />
+
+    <property name="libphonenumber.dir" value="../libphonenumber-read-only" />
+    <property name="closure-library.dir" value="../closure-library" />
+    <property name="closure-compiler.jar" value="../compiler.jar" />
+    <property name="compiled.name" value="libphonenumber.compiled.js" />
+
+    <!-- properties to be changed by user END -->
+
+    <!-- libphonenumber js dir -->
+    <property name="libphonenumber-js.dir" value="${libphonenumber.dir}/javascript/i18n/phonenumbers"/>
+
+    <!-- closure library js dir -->
+    <property name="closure-library-js.dir" value="${closure-library.dir}/closure/goog"/>
+    <property name="closure.builder.py" value="${closure-library.dir}/closure/bin/build/closurebuilder.py"/>
+
+    <!-- dirs for building -->
+    <property name="build.dir" value="build"/>
+    <property name="dist.dir" value="dist"/>
+    <property name="test.dir" value="test"/>
+
+    <!-- concat js files and create build result -->
+    <target name="concat-js">
+        <mkdir dir="${build.dir}"/>
+        <echo>Concat js files</echo>
+        <concat destfile="${build.js.dir}/${build.out}.js" eol="lf" fixlastline="yes">
+
+            <!--loading vendor lib files-->
+            <filelist dir="${libphonenumber.dir}">
+                <file name="libphonenumber/phonenumberutil.js"/>
+                <file name="libphonenumber/metadata.js"/>
+                <file name="libphonenumber/phonemetadata.pb.js"/>
+                <file name="libphonenumber/phonenumber.pb.js"/>
+            </filelist>
+
+        </concat>
+    </target>
+
+    <target name="clean-dirs">
+        <!-- remove dirs -->
+        <delete dir="${build.dir}"/>
+
+        <!-- create empty dirs -->
+        <mkdir dir="${build.dir}"/>
+    </target>
+
+    <target name="file-checks">
+        <available file="${libphonenumber-js.dir}/phonenumberutil.js"  property="libphonenumber.found"/>
+        <available file="${closure-library-js.dir}/base.js"  property="closure-library.found"/>
+
+        <fail>
+            <condition>
+                <not>
+                    <and>
+                        <isset property="libphonenumber.found"/>
+                        <isset property="closure-library.found"/>
+                    </and>
+                </not>
+            </condition>
+        </fail>
+    </target>
+
+    <target name="copy-files" if="libphonenumber.found">
+        <!-- copy important files from libphonenumber to local dirs -->
+        <copy todir="${build.dir}">
+            <fileset dir="${libphonenumber-js.dir}">
+                <exclude name="**/*test*"/>
+                <exclude name="**/demo*"/>
+            </fileset>
+        </copy>
+
+        <copy file="libphonenumber-boot.js" todir="${build.dir}"/>
+
+        <antcall target="use-metadata-lite" />
+        <antcall target="use-metadata" />
+    </target>
+
+    <target name="use-metadata-lite" if="${use.metadatalite}">
+        <echo>Using metadatalite.js</echo>
+        <delete file="${build.dir}/metadata.js"/>
+    </target>
+    <target name="use-metadata" unless="${use.metadatalite}">
+        <echo>Using metadata.js</echo>
+        <delete file="${build.dir}/metadatalite.js"/>
+    </target>
+
+    <target name="closure-builder">
+        <echo>using ${closure.builder.py} to build goog.require dependencies</echo>
+        <exec executable="python2" failonerror="true">
+            <arg line="${closure.builder.py}
+            --root=${closure-library.dir}
+            --root=${build.dir}
+            --output_file=${dist.dir}/${compiled.name}
+            --namespace=COMPILE.libphonenumbers
+            --output_mode=compiled
+            --compiler_jar=${closure-compiler.jar}"/>
+        </exec>
+    </target>
+
+    <target name="prepare-test">
+        <copy file="${dist.dir}/${compiled.name}" todir="${test.dir}"/>
+    </target>
+
+    <target name="copy-scripts" depends="file-checks,clean-dirs,copy-files,closure-builder,prepare-test">
+        <echo>done compiling libphonenumber</echo>
+    </target>
+
+</project>
