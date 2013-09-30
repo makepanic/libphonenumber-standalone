@@ -26,23 +26,6 @@
     <property name="dist.dir" value="dist"/>
     <property name="test.dir" value="test"/>
 
-    <!-- concat js files and create build result -->
-    <target name="concat-js">
-        <mkdir dir="${build.dir}"/>
-        <echo>Concat js files</echo>
-        <concat destfile="${build.js.dir}/${build.out}.js" eol="lf" fixlastline="yes">
-
-            <!--loading vendor lib files-->
-            <filelist dir="${libphonenumber.dir}">
-                <file name="libphonenumber/phonenumberutil.js"/>
-                <file name="libphonenumber/metadata.js"/>
-                <file name="libphonenumber/phonemetadata.pb.js"/>
-                <file name="libphonenumber/phonenumber.pb.js"/>
-            </filelist>
-
-        </concat>
-    </target>
-
     <target name="clean-dirs">
         <!-- remove dirs -->
         <delete dir="${build.dir}"/>
