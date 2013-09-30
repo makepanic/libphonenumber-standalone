@@ -6,6 +6,10 @@ This [apache ant](http://ant.apache.org/) build script creates a version of [lib
 The advantage of precompiling everything is that you don't need to include the closure library in your project.
 In addition to that you don't have to prepare your project to be compatible with the [ClosureBuilder](https://developers.google.com/closure/library/docs/closurebuilder) build process.
 
+##Usage
+
+Once you set up everything according to the [installation](#installation) you need to run `ant` and the compiled file should appear in the `dist` directory.
+
 ##Installation
 
 To run the ant `build.xml` without problems you need the following files:
