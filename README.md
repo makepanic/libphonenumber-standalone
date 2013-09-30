@@ -33,23 +33,33 @@ You can change the paths to the location of the required files and projects. To 
 
 - set if the compiled file should use the lite metadata file or not
 
-    <property name="use.metadatalite" value="false" />
+```
+<property name="use.metadatalite" value="false" />
+```
 
 - change the libphonenumber directory
 
-    <property name="libphonenumber.dir" value="../libphonenumber-read-only" />
+```
+<property name="libphonenumber.dir" value="../libphonenumber-read-only" />
+```
 
 - change the closure-library directory
 
-    <property name="closure-library.dir" value="../closure-library" />
+```
+<property name="closure-library.dir" value="../closure-library" />
+```
 
 - change the closure-compiler.jar file
 
-    <property name="closure-compiler.jar" value="../compiler.jar" />
+```
+<property name="closure-compiler.jar" value="../compiler.jar" />
+```
 
 - change the compiled javascript filename
 
-    <property name="compiled.name" value="libphonenumber.compiled.js" />
+```
+<property name="compiled.name" value="libphonenumber.compiled.js" />
+```
 
 ##License
 
