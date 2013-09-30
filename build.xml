@@ -46,9 +46,11 @@
     <target name="clean-dirs">
         <!-- remove dirs -->
         <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
 
         <!-- create empty dirs -->
         <mkdir dir="${build.dir}"/>
+        <mkdir dir="${dist.dir}"/>
     </target>
 
     <target name="file-checks">
