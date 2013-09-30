@@ -21,8 +21,6 @@ To run the ant `build.xml` without problems you need the following files:
 If you don't want to change the configuration your setup to build everything should look like this:
 
     .
-    ├── closure-compiler
-    │   └── ...
     ├── closure-library
     │   └── ...
     ├── libphonenumber-read-only
