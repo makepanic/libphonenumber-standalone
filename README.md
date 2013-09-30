@@ -1,4 +1,4 @@
-#libphonenumber-compile
+#libphonenumber-standalone
 
 ##About
 
@@ -67,4 +67,4 @@ You can change the paths to the location of the required files and projects. To 
 
 ##License
 
-libphonenumber-compile is available under the MIT license. For more information see the `LICENSE` file.
+libphonenumber-standalone is available under the MIT license. For more information see the `LICENSE` file.
